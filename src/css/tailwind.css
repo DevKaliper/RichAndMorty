@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
+
+
+#text h3 {
+    position:absolute;
+    font-family: 'Asap', sans-serif;
+    font-weight:700;
+    display: inline-block;
+    text-transform: uppercase;
+    
+    color:#000;
+    text-shadow: 1px 1px 1px #fff;
+    text-align:center;
+    visibility:visible;
+    font-size:20vh;
+    top:calc(50% - 100px);
+    overflow: hidden;
+  }
