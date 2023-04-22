@@ -1,51 +1,98 @@
 gsap.registerPlugin(TextPlugin, EasePack);
+const btn_menu = document.querySelector("#btn-menu");
+const menu = document.querySelector("#menu");
+const loader = document.querySelector("#loader");
 
-//Para la pantalla de carga inicial
-let container = "#text",
-  sentenceEndExp = /(\.|\?|!)$/g; //regular expression to sense punctuation that indicates the end of a sentence so that we can adjust timing accordingly
-let finished = false;
-function machineGun(text) {
-  let words = text.split(" "),
-    tl = gsap.timeline({ delay: 0.6, repeatDelay: 4 }),
-    wordCount = words.length,
-    time = 0,
-    word,
-    element,
-    duration,
-    isSentenceEnd,
-    i;
-
-  for (i = 0; i < wordCount; i++) {
-    word = words[i];
-    isSentenceEnd = sentenceEndExp.test(word);
-    element = $("<h3>" + word + "</h3>").appendTo(container);
-    duration = Math.max(0.5, word.length * 0.08); //longer words take longer to read, so adjust timing. Minimum of 0.5 seconds.
-    if (isSentenceEnd) {
-      duration += 0.6; //if it's the last word in a sentence, drag out the timing a bit for a dramatic pause.
-    }
-    //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
-    gsap.set(element, { autoAlpha: 0, scale: 0, z: 0.01 });
-    //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See https://www.greensock.com/v12/#slowmo and https://api.greensock.com/js/com/greensock/easing/SlowMo.html
-    tl.to(element, duration, { scale: 1.2, ease: "slow(0.25, 0.9)" }, time)
-      //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end.
-      .to(
-        element,
-        duration,
-        { autoAlpha: 1, ease: "slow(0.25, 0.9, true)" },
-        time
-      );
-    time += duration - 0.05;
-    if (isSentenceEnd) {
-      time += 0.6; //at the end of a sentence, add a pause for dramatic effect.
-    }
-  }
-  tl.eventCallback("onComplete", function () {
-    setTimeout(e=>{document.querySelector("#text").remove();}, 1000)
-    
-    
+btn_menu.addEventListener("click", (e) => {
+  menu.classList.toggle("hidden");
+  response.classList.toggle("w-full");
 });
-}
 
-// machineGun(
-// 	"This is Rick And Morty Fan Page... lets get started!"
-// ) 
+const randomNumber = () =>{
+  return Math.floor(Math.random() * 50);
+} 
+//funcion que genera un numero aleatorio
+
+//Conecting to API
+const getRickPage = async (page) => {
+  let url = "https://rickandmortyapi.com/api/character/?page=" + page;
+  const response = await fetch(url);
+  const data = await response.json();
+  divResponse = document.querySelector("#response");
+  divResponse.innerHTML = "";
+  data.results.map((character) => {
+    divCharacter = document.createElement("div");
+    divCharacter.innerHTML += `
+        <div
+    class="max-w-md card transform cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-2xl">
+    <div class="flex items-center justify-center p-4">
+    <img
+    class="rounded-xl"
+    src="${character.image}"
+    alt="character" />
+    </div>
+    <div class="flex justify-between p-6">
+    <div class="flex items-center space-x-4">
+    <img
+    class="h-10 rounded-full"
+    src="${character.image}"
+    alt="" />
+    <h1 class="text-lg font-bold text-gray-900">${character.name}</h1>
+    </div>
+    <div class="flex items-center space-x-6">
+    <div class="flex items-center space-x-2">
+    <span>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-6 w-6 text-gray-600"
+    fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+              </svg>
+              </span>
+              <span class="font-semibold text-gray-700">${randomNumber()}</span>
+              </div>
+              <div class="flex items-center space-x-2 pr-4">
+          <span>
+          <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-red-600 hover:text-red-500"
+          viewBox="0 0 20 20"
+          fill="currentColor">
+          <path
+          fill-rule="evenodd"
+          d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+          clip-rule="evenodd" />
+          </svg>
+          </span>
+          <span class="font-semibold text-gray-700">${randomNumber()}</span>
+          </div>
+          </div>
+          </div>
+          </div>
+          `;
+    divResponse.appendChild(divCharacter);
+  });
+};
+
+
+
+//Conecting to API Location
+
+
+getRickPage(1);
+
+
+
+setTimeout(() => {
+  loader.remove();
+  finished = true;
+  document.querySelector("body").classList.remove("overflow-hidden");
+  
+}, 1500);
+

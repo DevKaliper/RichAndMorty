@@ -1,90 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./public/css/main.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
-</head>
-<body>
-    <div id="text" class="absolute invisible top-0 left-0 min-w-full min-h-full bg-gradient-to-r from-yellow-200 via-green-200 to-green-500 m-auto overflow-hidden flex justify-center items-center text-black"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Rick And Morty</title>
+    <link
+      rel="stylesheet"
+      href="./public/css/main.min.css" />
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
+  </head>
+  <body
+    class="relative overflow-hidden from-yellow-200 via-green-200 to-green-300">
+    <div
+      class="loader3"
+      id="loader">
+      <div class="img-container">
+        <img
+          src="./public/img/imgloader.png"
+          alt="" />
+      </div>
+      <div class="circle-container">
+        <div class="circle1"></div>
+        <div class="circle1"></div>
+        <div class="circle1"></div>
+        <div class="circle1"></div>
+        <div class="circle1"></div>
+      </div>
+    </div>
 
-<!-- page -->
-<main class="min-h-screen w-full bg-gray-100 text-gray-700" x-data="layout">
-    <!-- header page -->
-    <header class="flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
+    <!-- page -->
+    <main
+      class="min-h-screen w-full text-gray-700"
+      x-data="layout"
+      id="main">
+      <!-- header page -->
+      <header
+        class="flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
         <!-- logo -->
         <div class="flex items-center space-x-2">
-            <button type="button" class="text-3xl" @click="asideOpen = !asideOpen"><i class="bx bx-menu"></i></button>
-            <div class="text-2xl">Rick And Morty Page</div>
+          <button
+            type="button"
+            class="text-3xl"
+            id="btn-menu"
+            @click="asideOpen = !asideOpen">
+            <i class="bx bx-menu"></i>
+          </button>
+          <div class="text-2xl">Rick And Morty Page</div>
         </div>
 
         <!-- button profile -->
         <div>
-            <button type="button"
-                class="h-9 w-9 overflow-hidden rounded-full">
-                <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
-            </button>
+          <button
+            type="button"
+            class="relative h-9 w-9 overflow-hidden rounded-full">
+            <img
+              src="./public/img/logo1.png"
+              alt="logo header "
+              class="absolute left-0 top-0 h-full w-full" />
+          </button>
 
-            <!-- dropdown profile -->
-         
+          <!-- dropdown profile -->
         </div>
-    </header>
+      </header>
 
-    <div class="flex">
+      <div class="flex">
         <!-- aside -->
-        <aside class="flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2" style="height: 90.5vh"
-            x-show="asideOpen">
-            <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                <span class="text-2xl"><i class="bx bx-group"></i></span>
-                <span>Characters</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                <span class="text-2xl"><i class="bx bx-tv"></i></span>
-                <span>Episodes</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
-                <span class="text-2xl"><i class="bx bx-globe"></i></span>
-                <span>Locations</span>
-            </a>
-
-            
+        <aside
+          class="fixed flex w-[10%] flex-col items-center justify-center space-y-2 border-gray-200"
+          style="height: 50%"
+          x-show="asideOpen"
+          id="menu">
+        
+         
+          <div class="mx-auto max-w-2xl">
+            <label
+              for="pages"
+              class="mb-2 hidden text-center text-xl font-medium text-gray-900 dark:text-gray-400 lg:flex 2xl:text-2xl"
+              >Select a page
+            </label>
+            <select
+              id="pages"
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              onchange="getRickPage(this.value)">
+              <script>
+                for (let i = 1; i <= 42; i++) {
+                  document.write(`<option value="${i}">${i}</option>`);
+                }
+              </script>
+            </select>
+          </div>
         </aside>
 
         <!-- main content page -->
-        <div class="w-full p-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita quam odit officiis
-            magni doloribus ipsa dolore, dolores nihil accusantium labore, incidunt autem iure quae vitae voluptate,
-            esse asperiores aliquam repellat. Harum aliquid non officiis porro at cumque eaque inventore iure. Modi sunt
-            optio mollitia repellat sed ab quibusdam quos harum!</div>
-    </div>
-</main>
+        <div
+          class="resultado absolute right-0 grid w-[90%] grid-cols-1 place-content-center justify-center gap-3 overflow-auto bg-gradient-to-r from-yellow-200 via-green-200 to-green-300 p-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+          id="response"></div>
+      </div>
+    </main>
 
-<script>
-    document.addEventListener("alpine:init", () => {
+    <script>
+      document.addEventListener("alpine:init", () => {
         Alpine.data("layout", () => ({
-            profileOpen: false,
-            asideOpen: true,
+          profileOpen: false,
+          asideOpen: true,
         }));
-    });
-</script>
+      });
+    </script>
 
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+      integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
+      crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/Draggable.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/EasePack.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/Draggable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/EasePack.min.js"></script>
 
-		<script src="./src/script.js"></script>
-    
-</body>
+    <script src="./src/script.js"></script>
+  </body>
 </html>
